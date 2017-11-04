@@ -811,7 +811,8 @@ Content-Format: "application/yang.api+json"
 
           <figure anchor="Figure3" title="DELETE identifier">
             <artwork align="left"><![CDATA[  DELETE /restconf/data/ietf-dots-data-channel-identifier:identifier\
-         /client-identifier=dz6pHjaADkaFTbjr0JGBpw,iAYmCNPmrYoKoqzgFMiobw&alias-name=Server1 HTTP/1.1
+         /client-identifier=dz6pHjaADkaFTbjr0JGBpw,iAYmCNPmrYoKoqzgFMiobw\
+         /alias-name=Server1 HTTP/1.1
   Host: {host}:{port}
 ]]></artwork>
           </figure>
@@ -841,7 +842,8 @@ Content-Format: "application/yang.api+json"
 
           <figure anchor="Figure4"
                   title="GET to retrieve all the installed identifiers">
-            <artwork align="left"><![CDATA[  GET /restconf/data/ietf-dots-data-channel-identifier:identifier?\
+            <artwork align="left"><![CDATA[  GET /restconf/data/ietf-dots-data-channel-identifier:identifier\
+      /client-identifier=dz6pHjaADkaFTbjr0JGBpw,iAYmCNPmrYoKoqzgFMiobw?\
       content=config HTTP/1.1
   Host: {host}:{port}
   Accept: application/yang-data+json]]></artwork>
@@ -1017,8 +1019,9 @@ Content-Format: "application/yang.api+json"
 
           <figure anchor="Figure9"
                   title="DELETE to remove the filtering rules">
-            <artwork align="left"><![CDATA[  DELETE /restconf/data/ietf-dots-access-control-list:access-lists/
-         /client-identifier=dz6pHjaADkaFTbjr0JGBpw,iAYmCNPmrYoKoqzgFMiobw&acl-name=sample-ipv4-acl&acl-type=ipv4-acl HTTP/1.1
+            <artwork align="left"><![CDATA[  DELETE /restconf/data/ietf-dots-access-control-list:access-lists\
+         /client-identifier=dz6pHjaADkaFTbjr0JGBpw,iAYmCNPmrYoKoqzgFMiobw\
+         /acl-name=sample-ipv4-acl&acl-type=ipv4-acl HTTP/1.1
   Host: {host}:{port}
 ]]></artwork>
           </figure>
@@ -1041,7 +1044,9 @@ Content-Format: "application/yang.api+json"
 
           <figure anchor="Figure10"
                   title="GET to retrieve the configuration data and state data for the filtering rules">
-            <artwork align="left"><![CDATA[  GET /restconf/data/ietf-dots-access-control-list:access-lists?content=all HTTP/1.1
+            <artwork align="left"><![CDATA[  GET /restconf/data/ietf-dots-access-control-list:access-lists\
+      /client-identifier=dz6pHjaADkaFTbjr0JGBpw,iAYmCNPmrYoKoqzgFMiobw?\
+      content=all HTTP/1.1
   Host: {host}:{port}
   Accept: application/yang-data+json
 ]]></artwork>

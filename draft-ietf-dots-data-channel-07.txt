@@ -5,7 +5,7 @@
 DOTS                                                            T. Reddy
 Internet-Draft                                                    McAfee
 Intended status: Standards Track                            M. Boucadair
-Expires: May 7, 2018                                              Orange
+Expires: May 8, 2018                                              Orange
                                                             K. Nishizuka
                                                       NTT Communications
                                                                   L. Xia
@@ -16,7 +16,7 @@ Expires: May 7, 2018                                              Orange
                                                     Arbor Networks, Inc.
                                                                N. Teague
                                                           Verisign, Inc.
-                                                        November 3, 2017
+                                                        November 4, 2017
 
 
 Distributed Denial-of-Service Open Threat Signaling (DOTS) Data Channel
@@ -45,7 +45,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on May 7, 2018.
+   This Internet-Draft will expire on May 8, 2018.
 
 
 
@@ -53,7 +53,7 @@ Status of This Memo
 
 
 
-Reddy, et al.              Expires May 7, 2018                  [Page 1]
+Reddy, et al.              Expires May 8, 2018                  [Page 1]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Reddy, et al.              Expires May 7, 2018                  [Page 2]
+Reddy, et al.              Expires May 8, 2018                  [Page 2]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
@@ -165,7 +165,7 @@ Internet-Draft              DOTS Data Channel              November 2017
 
 
 
-Reddy, et al.              Expires May 7, 2018                  [Page 3]
+Reddy, et al.              Expires May 8, 2018                  [Page 3]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
@@ -221,7 +221,7 @@ Internet-Draft              DOTS Data Channel              November 2017
 
 
 
-Reddy, et al.              Expires May 7, 2018                  [Page 4]
+Reddy, et al.              Expires May 8, 2018                  [Page 4]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
@@ -277,7 +277,7 @@ Internet-Draft              DOTS Data Channel              November 2017
 
 
 
-Reddy, et al.              Expires May 7, 2018                  [Page 5]
+Reddy, et al.              Expires May 8, 2018                  [Page 5]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
@@ -333,7 +333,7 @@ Internet-Draft              DOTS Data Channel              November 2017
 
 
 
-Reddy, et al.              Expires May 7, 2018                  [Page 6]
+Reddy, et al.              Expires May 8, 2018                  [Page 6]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
@@ -389,7 +389,7 @@ module ietf-dots-data-channel-identifier {
 
 
 
-Reddy, et al.              Expires May 7, 2018                  [Page 7]
+Reddy, et al.              Expires May 8, 2018                  [Page 7]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
@@ -445,7 +445,7 @@ Internet-Draft              DOTS Data Channel              November 2017
 
 
 
-Reddy, et al.              Expires May 7, 2018                  [Page 8]
+Reddy, et al.              Expires May 8, 2018                  [Page 8]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
@@ -501,7 +501,7 @@ Internet-Draft              DOTS Data Channel              November 2017
 
 
 
-Reddy, et al.              Expires May 7, 2018                  [Page 9]
+Reddy, et al.              Expires May 8, 2018                  [Page 9]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
@@ -557,7 +557,7 @@ Internet-Draft              DOTS Data Channel              November 2017
 
 
 
-Reddy, et al.              Expires May 7, 2018                 [Page 10]
+Reddy, et al.              Expires May 8, 2018                 [Page 10]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
@@ -613,7 +613,7 @@ module ietf-dots-access-control-list {
 
 
 
-Reddy, et al.              Expires May 7, 2018                 [Page 11]
+Reddy, et al.              Expires May 8, 2018                 [Page 11]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
@@ -669,7 +669,7 @@ Internet-Draft              DOTS Data Channel              November 2017
 
 
 
-Reddy, et al.              Expires May 7, 2018                 [Page 12]
+Reddy, et al.              Expires May 8, 2018                 [Page 12]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
@@ -725,7 +725,7 @@ Internet-Draft              DOTS Data Channel              November 2017
 
 
 
-Reddy, et al.              Expires May 7, 2018                 [Page 13]
+Reddy, et al.              Expires May 8, 2018                 [Page 13]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
@@ -781,7 +781,7 @@ Internet-Draft              DOTS Data Channel              November 2017
 
 
 
-Reddy, et al.              Expires May 7, 2018                 [Page 14]
+Reddy, et al.              Expires May 8, 2018                 [Page 14]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
@@ -837,7 +837,7 @@ Internet-Draft              DOTS Data Channel              November 2017
 
 
 
-Reddy, et al.              Expires May 7, 2018                 [Page 15]
+Reddy, et al.              Expires May 8, 2018                 [Page 15]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
@@ -893,7 +893,7 @@ Internet-Draft              DOTS Data Channel              November 2017
 
 
 
-Reddy, et al.              Expires May 7, 2018                 [Page 16]
+Reddy, et al.              Expires May 8, 2018                 [Page 16]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
@@ -904,7 +904,8 @@ Internet-Draft              DOTS Data Channel              November 2017
    server (Figure 5).
 
   DELETE /restconf/data/ietf-dots-data-channel-identifier:identifier\
-         /client-identifier=dz6pHjaADkaFTbjr0JGBpw,iAYmCNPmrYoKoqzgFMiobw&alias-name=Server1 HTTP/1.1
+         /client-identifier=dz6pHjaADkaFTbjr0JGBpw,iAYmCNPmrYoKoqzgFMiobw\
+         /alias-name=Server1 HTTP/1.1
   Host: {host}:{port}
 
                         Figure 5: DELETE identifier
@@ -930,10 +931,11 @@ Internet-Draft              DOTS Data Channel              November 2017
    client.  The content parameter and its permitted values are defined
    in Section 4.8.1 of [RFC8040].
 
-     GET /restconf/data/ietf-dots-data-channel-identifier:identifier?\
-         content=config HTTP/1.1
-     Host: {host}:{port}
-     Accept: application/yang-data+json
+  GET /restconf/data/ietf-dots-data-channel-identifier:identifier\
+      /client-identifier=dz6pHjaADkaFTbjr0JGBpw,iAYmCNPmrYoKoqzgFMiobw?\
+      content=config HTTP/1.1
+  Host: {host}:{port}
+  Accept: application/yang-data+json
 
           Figure 6: GET to retrieve all the installed identifiers
 
@@ -947,9 +949,7 @@ Internet-Draft              DOTS Data Channel              November 2017
 
 
 
-
-
-Reddy, et al.              Expires May 7, 2018                 [Page 17]
+Reddy, et al.              Expires May 8, 2018                 [Page 17]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
@@ -1005,7 +1005,7 @@ Internet-Draft              DOTS Data Channel              November 2017
 
 
 
-Reddy, et al.              Expires May 7, 2018                 [Page 18]
+Reddy, et al.              Expires May 8, 2018                 [Page 18]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
@@ -1061,7 +1061,7 @@ Internet-Draft              DOTS Data Channel              November 2017
 
 
 
-Reddy, et al.              Expires May 7, 2018                 [Page 19]
+Reddy, et al.              Expires May 8, 2018                 [Page 19]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
@@ -1117,7 +1117,7 @@ Internet-Draft              DOTS Data Channel              November 2017
 
 
 
-Reddy, et al.              Expires May 7, 2018                 [Page 20]
+Reddy, et al.              Expires May 8, 2018                 [Page 20]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
@@ -1155,8 +1155,9 @@ Internet-Draft              DOTS Data Channel              November 2017
    A DELETE request is used to delete filtering rules from a DOTS server
    (Figure 9).
 
-  DELETE /restconf/data/ietf-dots-access-control-list:access-lists/
-         /client-identifier=dz6pHjaADkaFTbjr0JGBpw,iAYmCNPmrYoKoqzgFMiobw&acl-name=sample-ipv4-acl&acl-type=ipv4-acl HTTP/1.1
+  DELETE /restconf/data/ietf-dots-access-control-list:access-lists\
+         /client-identifier=dz6pHjaADkaFTbjr0JGBpw,iAYmCNPmrYoKoqzgFMiobw\
+         /acl-name=sample-ipv4-acl&acl-type=ipv4-acl HTTP/1.1
   Host: {host}:{port}
 
               Figure 9: DELETE to remove the filtering rules
@@ -1172,8 +1173,7 @@ Internet-Draft              DOTS Data Channel              November 2017
 
 
 
-
-Reddy, et al.              Expires May 7, 2018                 [Page 21]
+Reddy, et al.              Expires May 8, 2018                 [Page 21]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
@@ -1186,7 +1186,9 @@ Internet-Draft              DOTS Data Channel              November 2017
    retrieve all the filtering rules programmed by the DOTS client and
    the number of matches for the installed filtering rules.
 
-  GET /restconf/data/ietf-dots-access-control-list:access-lists?content=all HTTP/1.1
+  GET /restconf/data/ietf-dots-access-control-list:access-lists\
+      /client-identifier=dz6pHjaADkaFTbjr0JGBpw,iAYmCNPmrYoKoqzgFMiobw?\
+      content=all HTTP/1.1
   Host: {host}:{port}
   Accept: application/yang-data+json
 
@@ -1224,15 +1226,16 @@ Internet-Draft              DOTS Data Channel              November 2017
    Specification Document(s):
       Reference to the document or documents that specify the parameter,
       preferably including URIs that can be used to retrieve copies of
-      the documents.  An indication of the relevant sections may also be
-      included but is not required.
 
 
 
-Reddy, et al.              Expires May 7, 2018                 [Page 22]
+Reddy, et al.              Expires May 8, 2018                 [Page 22]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
+
+      the documents.  An indication of the relevant sections may also be
+      included but is not required.
 
 4.3.  Initial Registry Contents
 
@@ -1279,17 +1282,17 @@ Internet-Draft              DOTS Data Channel              November 2017
    o  Specification Document(s): this document
 
    o  JSON Attribute: "fqdn"
-   o  Description: Fully Qualified Domain Name, is the full name of a
-      system, rather than just its hostname.  For example, "venera" is a
-      hostname, and "venera.isi.edu" is an FQDN.
 
 
 
-Reddy, et al.              Expires May 7, 2018                 [Page 23]
+Reddy, et al.              Expires May 8, 2018                 [Page 23]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
 
+   o  Description: Fully Qualified Domain Name, is the full name of a
+      system, rather than just its hostname.  For example, "venera" is a
+      hostname, and "venera.isi.edu" is an FQDN.
    o  Change Controller: IESG
    o  Specification Document(s): this document
 
@@ -1334,18 +1337,19 @@ Internet-Draft              DOTS Data Channel              November 2017
    the network (including connectivity and services delivered over that
    network).
 
-   Involved functional elements in the cooperation system must establish
-   exchange instructions and notification over a secure and
-   authenticated channel.  Adequate filters can be enforced to avoid
-   that nodes outside a trusted domain can inject request such as
 
 
 
-Reddy, et al.              Expires May 7, 2018                 [Page 24]
+
+Reddy, et al.              Expires May 8, 2018                 [Page 24]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
 
+   Involved functional elements in the cooperation system must establish
+   exchange instructions and notification over a secure and
+   authenticated channel.  Adequate filters can be enforced to avoid
+   that nodes outside a trusted domain can inject request such as
    deleting filtering rules.  Nevertheless, attacks can be initiated
    from within the trusted domain if an entity has been corrupted.
    Adequate means to monitor trusted nodes should also be enabled.
@@ -1389,18 +1393,18 @@ Internet-Draft              DOTS Data Channel              November 2017
               DOI 10.17487/RFC5246, August 2008,
               <https://www.rfc-editor.org/info/rfc5246>.
 
-   [RFC5925]  Touch, J., Mankin, A., and R. Bonica, "The TCP
-              Authentication Option", RFC 5925, DOI 10.17487/RFC5925,
-              June 2010, <https://www.rfc-editor.org/info/rfc5925>.
 
 
 
 
-
-Reddy, et al.              Expires May 7, 2018                 [Page 25]
+Reddy, et al.              Expires May 8, 2018                 [Page 25]
 
 Internet-Draft              DOTS Data Channel              November 2017
 
+
+   [RFC5925]  Touch, J., Mankin, A., and R. Bonica, "The TCP
+              Authentication Option", RFC 5925, DOI 10.17487/RFC5925,
+              June 2010, <https://www.rfc-editor.org/info/rfc5925>.
 
    [RFC7230]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
               Protocol (HTTP/1.1): Message Syntax and Routing",
@@ -1443,20 +1447,21 @@ Internet-Draft              DOTS Data Channel              November 2017
               "IANA, "Protocol Numbers"", 2011,
               <http://www.iana.org/assignments/protocol-numbers>.
 
+
+
+
+
+
+
+Reddy, et al.              Expires May 8, 2018                 [Page 26]
+
+Internet-Draft              DOTS Data Channel              November 2017
+
+
    [RFC6020]  Bjorklund, M., Ed., "YANG - A Data Modeling Language for
               the Network Configuration Protocol (NETCONF)", RFC 6020,
               DOI 10.17487/RFC6020, October 2010,
               <https://www.rfc-editor.org/info/rfc6020>.
-
-
-
-
-
-
-Reddy, et al.              Expires May 7, 2018                 [Page 26]
-
-Internet-Draft              DOTS Data Channel              November 2017
-
 
    [RFC6241]  Enns, R., Ed., Bjorklund, M., Ed., Schoenwaelder, J., Ed.,
               and A. Bierman, Ed., "Network Configuration Protocol
@@ -1496,6 +1501,19 @@ Authors' Addresses
    Email: mohamed.boucadair@orange.com
 
 
+
+
+
+
+
+
+
+
+Reddy, et al.              Expires May 8, 2018                 [Page 27]
+
+Internet-Draft              DOTS Data Channel              November 2017
+
+
    Kaname Nishizuka
    NTT Communications
    GranPark 16F 3-4-1 Shibaura, Minato-ku
@@ -1503,15 +1521,6 @@ Authors' Addresses
    Japan
 
    Email: kaname@nttv6.jp
-
-
-
-
-
-
-Reddy, et al.              Expires May 7, 2018                 [Page 27]
-
-Internet-Draft              DOTS Data Channel              November 2017
 
 
    Liang Xia
@@ -1556,13 +1565,4 @@ Internet-Draft              DOTS Data Channel              November 2017
 
 
 
-
-
-
-
-
-
-
-
-
-Reddy, et al.              Expires May 7, 2018                 [Page 28]
+Reddy, et al.              Expires May 8, 2018                 [Page 28]
