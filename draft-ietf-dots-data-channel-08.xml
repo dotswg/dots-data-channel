@@ -647,9 +647,7 @@ module ietf-dots-access-control-list {
             "/ietf-acl:ace/ietf-acl:actions" {
         description "rate-limit action";
         leaf rate-limit {
-           when "/ietf-acl:access-lists/ietf-acl:acl/ietf-acl:aces" +
-                "/ietf-acl:ace/ietf-acl:actions/ietf-acl:forwarding" +
-                "!= 'accept'" {
+           when "ietf-acl:forwarding = 'accept'" {
               description 
                 "rate-limit valid only when accept action is used";
            }
