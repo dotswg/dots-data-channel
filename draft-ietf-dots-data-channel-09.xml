@@ -1,0 +1,1366 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+<?rfc toc="yes"?>
+<?rfc tocompact="yes"?>
+<?rfc tocdepth="3"?>
+<?rfc tocindent="yes"?>
+<?rfc symrefs="yes"?>
+<?rfc sortrefs="yes"?>
+<?rfc comments="yes"?>
+<?rfc inline="yes"?>
+<?rfc compact="yes"?>
+<?rfc subcompact="no"?>
+<rfc category="std" docName="draft-ietf-dots-data-channel-08"
+     ipr="trust200902">
+  <front>
+    <title abbrev="DOTS Data Channel">Distributed Denial-of-Service Open
+    Threat Signaling (DOTS) Data Channel</title>
+
+    <author fullname="Tirumaleswar Reddy" initials="T." surname="Reddy">
+      <organization abbrev="McAfee">McAfee, Inc.</organization>
+
+      <address>
+        <postal>
+          <street>Embassy Golf Link Business Park</street>
+
+          <city>Bangalore</city>
+
+          <region>Karnataka</region>
+
+          <code>560071</code>
+
+          <country>India</country>
+        </postal>
+
+        <email>kondtir@gmail.com</email>
+      </address>
+    </author>
+
+    <author fullname="Mohamed Boucadair" initials="M." surname="Boucadair">
+      <organization>Orange</organization>
+
+      <address>
+        <postal>
+          <street></street>
+
+          <city>Rennes</city>
+
+          <region></region>
+
+          <code>35000</code>
+
+          <country>France</country>
+        </postal>
+
+        <email>mohamed.boucadair@orange.com</email>
+      </address>
+    </author>
+
+    <author fullname="Kaname Nishizuka" initials="K." surname="Nishizuka">
+      <organization>NTT Communications</organization>
+
+      <address>
+        <postal>
+          <street>GranPark 16F 3-4-1 Shibaura, Minato-ku</street>
+
+          <city>Tokyo</city>
+
+          <region></region>
+
+          <code>108-8118</code>
+
+          <country>Japan</country>
+        </postal>
+
+        <email>kaname@nttv6.jp</email>
+      </address>
+    </author>
+
+    <author fullname="Liang Xia" initials="L." surname="Xia">
+      <organization>Huawei</organization>
+
+      <address>
+        <postal>
+          <street>101 Software Avenue, Yuhuatai District</street>
+
+          <city>Nanjing, Jiangsu</city>
+
+          <region></region>
+
+          <code>210012</code>
+
+          <country>China</country>
+        </postal>
+
+        <email>frank.xialiang@huawei.com</email>
+      </address>
+    </author>
+
+    <author fullname="Prashanth Patil" initials="P." surname="Patil">
+      <organization abbrev="Cisco">Cisco Systems, Inc.</organization>
+
+      <address>
+        <postal>
+          <street></street>
+
+          <street></street>
+
+          <city></city>
+
+          <country></country>
+        </postal>
+
+        <email>praspati@cisco.com</email>
+      </address>
+    </author>
+
+    <author fullname="Andrew Mortensen" initials="A." surname="Mortensen">
+      <organization>Arbor Networks, Inc.</organization>
+
+      <address>
+        <postal>
+          <street>2727 S. State St</street>
+
+          <city>Ann Arbor, MI</city>
+
+          <region></region>
+
+          <code>48104</code>
+
+          <country>United States</country>
+        </postal>
+
+        <email>amortensen@arbor.net</email>
+      </address>
+    </author>
+
+    <author fullname="Nik Teague" initials="N." surname="Teague">
+      <organization>Verisign, Inc.</organization>
+
+      <address>
+        <postal>
+          <street></street>
+
+          <city></city>
+
+          <region></region>
+
+          <code></code>
+
+          <country>United States</country>
+        </postal>
+
+        <email>nteague@verisign.com</email>
+      </address>
+    </author>
+
+    <date />
+
+    <workgroup>DOTS</workgroup>
+
+    <abstract>
+      <t>The document specifies a Distributed Denial-of-Service Open Threat
+      Signaling (DOTS) data channel used for bulk exchange of data not easily
+      or appropriately communicated through the DOTS signal channel under
+      attack conditions. This is a companion document to the DOTS signal
+      channel specification.</t>
+    </abstract>
+  </front>
+
+  <middle>
+    <section anchor="introduction" title="Introduction">
+      <t>A distributed denial-of-service (DDoS) attack is an attempt to make
+      machines or network resources unavailable to their intended users. In
+      most cases, sufficient scale can be achieved by compromising enough
+      end-hosts and using those infected hosts to perpetrate and amplify the
+      attack. The victim in this attack can be an application server, a
+      client, a router, a firewall, or an entire network.</t>
+
+      <t>DDoS Open Threat Signaling (DOTS) <xref
+      target="I-D.ietf-dots-architecture"></xref> defines two channels: signal
+      and data channels (<xref target="channels"></xref>). The DOTS signal
+      channel used to convey that a network is under a DDOS attack to an
+      upstream DOTS server so that appropriate mitigation actions are
+      undertaken on the suspect traffic is further elaborated in <xref
+      target="I-D.ietf-dots-signal-channel"></xref>. The DOTS data channel is
+      used for infrequent bulk data exchange between DOTS agents in the aim to
+      significantly augment attack response coordination.<figure
+          align="center" anchor="channels" title="DOTS Channels">
+          <artwork><![CDATA[     +---------------+                                 +---------------+
+     |               | <------- Signal Channel ------> |               |
+     |  DOTS Client  |                                 |  DOTS Server  |
+     |               | <=======  Data Channel  ======> |               |
+     +---------------+                                 +---------------+]]></artwork>
+        </figure></t>
+
+      <t>Section 2 of <xref target="I-D.ietf-dots-architecture"></xref>
+      identifies that the DOTS data channel is used to perform the tasks
+      listed below:</t>
+
+      <t><list style="symbols">
+          <t>Filter management, which enables a DOTS client to request the
+          installation or removal of traffic filters, dropping or
+          rate-limiting unwanted traffic and permitting white-listed traffic.
+          Sample use cases for populating black- or white-list filtering rules
+          are detailed hereafter: <list style="letters">
+              <t>If a network resource (DOTS client) detects a potential DDoS
+              attack from a set of IP addresses, the DOTS client informs its
+              servicing router (DOTS gateway) of all suspect IP addresses that
+              need to be blocked or black-listed for further investigation.
+              The DOTS client could also specify a list of protocols and ports
+              in the black-list rule. That DOTS gateway in-turn propagates the
+              black-listed IP addresses to the DOTS server which will
+              undertake appropriate action so that traffic from these IP
+              addresses to the target network (specified by the DOTS client)
+              is blocked.</t>
+
+              <t>A network has partner sites from which only legitimate
+              traffic arrives and the network wants to ensure that the traffic
+              from these sites is not penalized during DDOS attacks. The DOTS
+              client uses the DOTS data channel to convey the white-listed IP
+              addresses or prefixes of the partner sites to its DOTS server.
+              The DOTS server uses this information to white-list flows from
+              such IP addresses or prefixes reaching the network.</t>
+            </list></t>
+
+          <t>Creating identifiers, such as names or aliases, for resources for
+          which mitigation may be requested:<list style="letters">
+              <t>The DOTS client may submit to the DOTS server a collection of
+              prefixes which it would like to refer to by alias when
+              requesting mitigation. The server can respond to this request
+              with either with a success or failure response (see requirement
+              OP-006 in <xref target="I-D.ietf-dots-requirements"></xref> and
+              Section 2 in <xref
+              target="I-D.ietf-dots-architecture"></xref>).</t>
+            </list></t>
+        </list></t>
+    </section>
+
+    <section anchor="notation" title="Notational Conventions and Terminology">
+      <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+      "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+      document are to be interpreted as described in <xref
+      target="RFC2119"></xref>.</t>
+
+      <t>The reader should be familiar with the terms defined in <xref
+      target="I-D.ietf-dots-architecture"></xref>.</t>
+
+      <t>The terminology for describing YANG data modules is defined in <xref
+      target="RFC7950"></xref>. The meaning of the symbols in tree diagrams is
+      defined in <xref
+      target="I-D.ietf-netmod-yang-tree-diagrams"></xref>.</t>
+
+      <t>For simplicity, all of the examples in this document use "/restconf"
+      as the discovered RESTCONF API root path. Many protocol header lines and
+      message-body text within examples throughout the document are split into
+      multiple lines for display purposes only. When a line ends with
+      backslash ('\') as the last character, the line is wrapped for display
+      purposes. It is to be considered to be joined to the next line by
+      deleting the backslash, the following line break, and the leading
+      whitespace of the next line.</t>
+    </section>
+
+    <section title="DOTS Data Channel">
+      <t>The DOTS data channel is intended to be used for bulk data exchanges
+      between DOTS agents. Unlike the signal channel <xref
+      target="I-D.ietf-dots-signal-channel"></xref>, which must operate
+      nominally even when confronted with signal degradation due to packets
+      loss, the data channel is not expected to be constructed to deal with
+      DDoS attack conditions.</t>
+
+      <t>As the primary function of the data channel is data exchange, a
+      reliable transport is required in order for DOTS agents to detect data
+      delivery success or failure. RESTCONF <xref target="RFC8040"></xref>
+      over TLS <xref target="RFC5246"></xref> over TCP is used for DOTS data
+      channel (<xref target="fig_dots2"></xref>). RESTCONF uses HTTP methods
+      to provide CRUD (create, read, update, delete) operations on a
+      conceptual datastore containing YANG data, which is compatible with a
+      server implementing NETCONF datastores.</t>
+
+      <t>The HTTP POST, PUT, PATCH, and DELETE methods are used to edit data
+      resources represented by DOTS data channel YANG data models. These basic
+      edit operations allow the DOTS data channel running configuration to be
+      altered by a DOTS client.</t>
+
+      <t>DOTS data channel configuration data and state data can be retrieved
+      with the GET method. HTTP status codes are used to report success or
+      failure for RESTCONF operations.</t>
+
+      <t>The DOTS client will perform the root resource discovery procedure
+      discussed in Section 3.1 of <xref target="RFC8040"></xref> to determine
+      the root of the RESTCONF API. After discovering the RESTCONF API root,
+      the DOTS client uses this value as the initial part of the path in the
+      request URI, in any subsequent request to the DOTS server. The DOTS
+      server may support retrieval of the YANG modules it supports (Section
+      3.7 in <xref target="RFC8040"></xref>), for example, a DOTS client may
+      use RESTCONF to retrieve the company proprietary YANG modules supported
+      by the DOTS server.</t>
+
+      <t><list style="empty">
+          <t>Note: This document uses RESTCONF, a protocol based on HTTP <xref
+          target="RFC7230"></xref>, for configuring data defined in YANG
+          version 1 <xref target="RFC6020"></xref> or YANG version 1.1 <xref
+          target="RFC7950"></xref>, using the datastore concepts defined in
+          the Network Configuration Protocol (NETCONF) <xref
+          target="RFC6241"></xref>. RESTCONF combines the simplicity of the
+          HTTP protocol with the predictability and automation potential of a
+          schema-driven API. RESTCONF offers a simple subset of NETCONF
+          functionality and provides a simplified interface using REST-like
+          API which addresses the needs of the DOTS data channel and hence an
+          optimal choice.</t>
+        </list><figure anchor="fig_dots2"
+          title="Abstract Layering of DOTS data channel over RESTCONF over TLS">
+          <artwork align="center"><![CDATA[          +--------------+
+          |     DOTS     |
+          +--------------+
+          |   RESTCONF   |
+          +--------------+
+          |     TLS      |
+          +--------------+
+          |     TCP      |
+          +--------------+
+          |     IP       |
+          +--------------+
+]]></artwork>
+        </figure></t>
+
+      <t>JavaScript Object Notation (JSON) <xref target="RFC7159"> </xref>
+      payload is used to propagate data channel specific payload messages that
+      convey request parameters and response information such as errors. This
+      specification uses the encoding rules defined in <xref
+      target="RFC7951"></xref> for representing DOTS data channel
+      configuration data defined using YANG (<xref target="YANG"></xref>) as
+      JSON text.</t>
+
+      <t>A DOTS client registers itself to its DOTS server(s) in order to set
+      up DOTS data channel related configuration data and receive state data
+      (i.e., non-configuration data) from the DOTS server(s).</t>
+
+      <t>A single DOTS data channel between DOTS agents can be used to
+      exchange multiple requests and multiple responses. To reduce DOTS client
+      and DOTS server workload, DOTS client SHOULD re-use the same TLS
+      session. While the communication to the DOTS server is quiescent, the
+      DOTS client MAY probe the server to ensure it has maintained
+      cryptographic state. Such probes can also keep alive firewall and/or NAT
+      bindings. A TLS heartbeat <xref target="RFC6520"></xref> verifies the
+      DOTS server still has TLS state by returning a TLS message.</t>
+
+      <section anchor="YANG" title="DOTS Data Channel YANG Module">
+        <section title="Identifier Module Tree Structure">
+          <t>This document defines a YANG module for creating identifiers,
+          such as names or aliases, for resources for which mitigation may be
+          requested. Such identifiers may be used in subsequent DOTS signal
+          channel exchanges to refer more efficiently to the resources under
+          attack.</t>
+
+          <t>This document defines the YANG module
+          "ietf-dots-data-channel-identifier", which has the following tree
+          structure:</t>
+
+          <t><figure>
+              <artwork><![CDATA[module: ietf-dots-data-channel-identifier
+    +--rw identifier
+       +--rw client-identifier*   binary
+       +--rw alias* [alias-name]
+          +--rw alias-name           string
+          +--rw target-ip*           inet:ip-address
+          +--rw target-prefix*       inet:ip-prefix
+          +--rw target-port-range* [lower-port upper-port]
+          |  +--rw lower-port    inet:port-number
+          |  +--rw upper-port    inet:port-number
+          +--rw target-protocol*     uint8
+          +--rw fqdn*                inet:domain-name
+          +--rw uri*                 inet:uri]]></artwork>
+            </figure>This structure is aligned with Section 5.2.1 of <xref
+          target="I-D.ietf-dots-signal-channel"></xref>.</t>
+        </section>
+
+        <section title="Identifier Model YANG Module">
+          <t><figure>
+              <artwork><![CDATA[<CODE BEGINS> file "ietf-dots-data-channel-identifier@2017-10-12.yang"
+
+module ietf-dots-data-channel-identifier {
+      yang-version 1.1;
+      namespace "urn:ietf:params:xml:ns:yang:ietf-dots-data-channel-identifier";
+
+      prefix "alias";
+
+      import ietf-inet-types {
+          prefix "inet";
+      }
+
+    organization "IETF DOTS Working Group";
+
+    contact
+      "Konda, Tirumaleswar Reddy <TirumaleswarReddy_Konda@McAfee.com>
+       Mohamed Boucadair <mohamed.boucadair@orange.com>
+       Kaname Nishizuka <kaname@nttv6.jp>
+       Liang Xia <frank.xialiang@huawei.com>
+       Prashanth Patil <praspati@cisco.com>
+       Andrew Mortensen <amortensen@arbor.net>
+       Nik Teague <nteague@verisign.com>";
+
+     description
+       "This module contains YANG definition for configuring
+        identifiers for resources using DOTS data channel.
+
+        Copyright (c) 2017 IETF Trust and the persons identified as
+        authors of the code.  All rights reserved.
+
+        Redistribution and use in source and binary forms, with or
+        without modification, is permitted pursuant to, and subject
+        to the license terms contained in, the Simplified BSD License
+        set forth in Section 4.c of the IETF Trust's Legal Provisions
+        Relating to IETF Documents
+        (http://trustee.ietf.org/license-info).
+
+        This version of this YANG module is part of RFC XXXX; see
+        the RFC itself for full legal notices.";
+
+     revision 2017-10-12 {
+       description "Fix nits and align the module with the signal
+                    channel.";
+       reference 
+       "-05";
+     }
+
+     revision 2017-08-03 {
+       reference 
+       "https://tools.ietf.org/html/draft-ietf-dots-data-channel";
+     }
+
+     container identifier {
+          description "Top level container for identifiers";
+
+              leaf-list client-identifier {
+                 type binary; 
+                 description  "A client identifier conveyed by a
+                               DOTS gateway to a remote DOTS server.";
+                 
+                 reference
+                    "I-D.itef-dots-signal-channel"; 
+              }
+
+              list alias {
+                   key alias-name;
+                   description "List of identifiers"; 
+
+                   leaf alias-name {
+                      type string;
+                      description "alias name";
+                   }
+
+                   leaf-list target-ip {
+                      type inet:ip-address;
+                      description "IPv4 or IPv6 address identifying 
+                                   the target.";
+                   }
+
+                   leaf-list target-prefix {
+                      type inet:ip-prefix;
+                      description "IPv4 or IPv6 prefix identifying 
+                                   the target.";
+                   }
+
+                   list target-port-range {
+                      key "lower-port upper-port";
+                      description 
+                           "Port range. When only lower-port is present, 
+                            it represents a single port.";
+                      leaf lower-port {
+                         type inet:port-number;
+                         mandatory true; 
+                         description "Lower port number.";
+                      }
+                      leaf upper-port {
+                         type inet:port-number;
+                         must ". >= ../lower-port" {
+                           error-message
+                           "The upper-port must be greater than or 
+                            equal to lower-port";
+                         }
+                         description "Upper port number.";
+                      }
+                   }
+
+                   leaf-list target-protocol {
+                      type uint8;
+                      description "Identifies the target 
+                                   protocol number.";
+                     
+                      reference
+                       "https://www.iana.org/assignments/
+                        protocol-numbers/protocol-numbers.xhtml";
+                   }
+
+                   leaf-list fqdn {
+                     type inet:domain-name;
+                     description "FQDN";
+                   }
+
+                   leaf-list uri {
+                     type inet:uri;
+                     description "URI";
+                   }
+          }
+     }
+  }
+ <CODE ENDS>
+]]></artwork>
+            </figure></t>
+        </section>
+
+        <section title="Filter Model YANG Module Tree Structure">
+          <t>This document augments the "ietf-access-control-list" Access
+          Control List (ACL) YANG module <xref
+          target="I-D.ietf-netmod-acl-model"></xref> for managing filtering
+          rules. ACL is explained in Section 1 of <xref
+          target="I-D.ietf-netmod-acl-model"></xref>.</t>
+
+          <t>Examples of ACL management include, but not limited to,:</t>
+
+          <t><list style="symbols">
+              <t>Black-list management, which enables a DOTS client to inform
+              the DOTS server about sources from which traffic should be
+              suppressed.</t>
+
+              <t>White-list management, which enables a DOTS client to inform
+              the DOTS server about sources from which traffic should always
+              be accepted.</t>
+
+              <t>Filter management, which enables a DOTS client to request the
+              installation or removal of traffic filters, dropping or
+              rate-limiting unwanted traffic and permitting white-listed
+              traffic.</t>
+            </list></t>
+
+          <t>This document defines the YANG module
+          "ietf-dots-access-control-list" to augment the
+          "ietf-access-control-list" module to support filters based on the
+          client identifier (client-identifier), to support rate-limit action
+          (rate-limit), and to handle fragmented packets (fragments).</t>
+
+          <t>Filtering fragments adds an additional layer of protection
+          against a DoS attack that uses only noninitial fragments. When there
+          is only Layer 3 information in the ACL entry and the fragments
+          keyword is present, for noninitial fragments matching the ACL entry,
+          the deny or permit action associated with the ACL entry will be
+          enforced and for initial or non-fragment matching the ACL entry, the
+          next ACL entry will be processed. When there is both Layer 3 and
+          Layer 4 information in the ACL entry and the fragments keyword is
+          present, the ACL action is conservative for both permit and deny
+          actions. The actions are conservative to not accidentally deny a
+          fragmented portion of a flow because the fragments do not contain
+          sufficient information to match all of the filter attributes. In the
+          deny action case, instead of denying a non-initial fragment, the
+          next ACL entry is processed. In the permit case, it is assumed that
+          the Layer 4 information in the non-initial fragment, if available,
+          matches the Layer 4 information in the ACL entry.</t>
+
+          <t>The "ietf-dots-access-control-list" module has the following
+          structure:</t>
+
+          <t><figure>
+              <artwork><![CDATA[module: ietf-dots-access-control-list
+  augment /ietf-acl:access-lists:
+    +--rw client-identifier*   binary
+  augment /ietf-acl:access-lists/ietf-acl:acl/ietf-acl:aces/ietf-acl:ace/ietf-acl:matches/ietf-acl:ipv4-acl:
+    +--rw fragments?   empty
+  augment /ietf-acl:access-lists/ietf-acl:acl/ietf-acl:aces/ietf-acl:ace/ietf-acl:matches/ietf-acl:ipv6-acl:
+    +--rw fragments?   empty
+  augment /ietf-acl:access-lists/ietf-acl:acl/ietf-acl:aces/ietf-acl:ace/ietf-acl:actions:
+    +--rw rate-limit?   decimal64
+  augment /ietf-acl:access-lists:
+    +--rw dots-acl-order
+       +--rw acl-set* [set-name type]
+          +--rw set-name    -> /ietf-acl:access-lists/acl/acl-name
+          +--rw type        -> /ietf-acl:access-lists/acl/acl-type]]></artwork>
+            </figure></t>
+        </section>
+
+        <section title="Filter Model YANG Module">
+          <t><figure>
+              <artwork><![CDATA[<CODE BEGINS> file "ietf-dots-access-control-list@2017-10-12.yang"
+
+module ietf-dots-access-control-list {
+      yang-version 1.1;
+
+      namespace "urn:ietf:params:xml:ns:yang:ietf-dots-access-control-list";
+      prefix "dots-acl";
+
+      import ietf-access-control-list {
+       prefix "ietf-acl";
+      }
+
+    organization "IETF DOTS Working Group";
+
+    contact
+      "Konda, Tirumaleswar Reddy <TirumaleswarReddy_Konda@McAfee.com>
+       Mohamed Boucadair <mohamed.boucadair@orange.com>
+       Kaname Nishizuka <kaname@nttv6.jp>
+       Liang Xia <frank.xialiang@huawei.com>
+       Prashanth Patil <praspati@cisco.com>
+       Andrew Mortensen <amortensen@arbor.net>
+       Nik Teague <nteague@verisign.com>";
+
+     description
+       "This module contains YANG definition for configuring
+        filtering rules using DOTS data channel.
+
+        Copyright (c) 2017 IETF Trust and the persons identified as
+        authors of the code.  All rights reserved.
+
+        Redistribution and use in source and binary forms, with or
+        without modification, is permitted pursuant to, and subject
+        to the license terms contained in, the Simplified BSD License
+        set forth in Section 4.c of the IETF Trust's Legal Provisions
+        Relating to IETF Documents
+        (http://trustee.ietf.org/license-info).
+
+        This version of this YANG module is part of RFC XXXX; see
+        the RFC itself for full legal notices.";
+
+     revision 2017-10-12 {
+       description "Fix nits and align the module with the signal
+                    channel.";
+       reference 
+       "-05";
+     }
+
+      revision 2017-06-12 {
+       reference 
+       "https://tools.ietf.org/html/draft-ietf-dots-data-channel";
+      }
+
+    augment "/ietf-acl:access-lists" {
+
+      description "client-identifier parameter.";
+
+      leaf-list client-identifier {
+          type binary; 
+          description  "A client identifier conveyed by a DOTS gateway
+                        to a remote DOTS server.";
+       }
+    }
+    
+    augment "/ietf-acl:access-lists/ietf-acl:acl/ietf-acl:aces" +
+            "/ietf-acl:ace/ietf-acl:actions" {
+        description "rate-limit action";
+        leaf rate-limit {
+           when "ietf-acl:forwarding = 'accept'" {
+              description 
+                "rate-limit valid only when accept action is used";
+           }
+           type decimal64 {
+             fraction-digits 2;
+           }
+           description "rate-limit traffic";
+       }
+    }
+
+    augment "/ietf-acl:access-lists/ietf-acl:acl/ietf-acl:aces" +
+            "/ietf-acl:ace/ietf-acl:matches/ietf-acl:ipv4-acl" {
+
+      description 
+          "Handle non-initial and initial fragments for IPv4 packets.";
+
+      leaf fragments {
+          type empty;
+          description "Handle fragments.";
+      }
+    }
+
+    augment "/ietf-acl:access-lists/ietf-acl:acl/ietf-acl:aces" +
+            "/ietf-acl:ace/ietf-acl:matches/ietf-acl:ipv6-acl" {
+
+      description 
+          "Handle non-initial and initial fragments for IPv6 packets.";
+
+      leaf fragments {
+          type empty;
+          description "Handle fragments.";
+      }
+    }
+
+    augment "/ietf-acl:access-lists" {
+
+      description "Handle ordering of ACLs 
+                   from a DOTS client";
+    
+      container dots-acl-order {
+         description
+            "Enclosing container for ordering 
+             the ACLs from a DOTS client";
+
+          list acl-set {
+             key "set-name type";
+             ordered-by user;
+             description
+                "List of ACLs";
+
+             leaf set-name {
+                type leafref {
+                   path "/ietf-acl:access-lists/ietf-acl:acl" +
+                        "/ietf-acl:acl-name";
+             }
+             description
+                "Reference to the ACL set name";
+             }
+
+             leaf type {
+                type leafref {
+                   path "/ietf-acl:access-lists/ietf-acl:acl" +
+                        "/ietf-acl:acl-type";
+             }
+             description
+                 "Reference to the ACL set type";
+             }
+          }
+      } 
+    }
+}
+ <CODE ENDS>
+]]></artwork>
+            </figure></t>
+        </section>
+      </section>
+
+      <section title="Identifiers">
+        <section title="Create Identifiers">
+          <t>A POST request is used to create identifiers, such as names or
+          aliases, for resources for which a mitigation may be requested. Such
+          identifiers may then be used in subsequent DOTS signal channel
+          exchanges to refer more efficiently to the resources under attack
+          (<xref target="Figure1"></xref>).</t>
+
+          <t><figure anchor="Figure1" title="POST to create identifiers">
+              <artwork align="left"><![CDATA[ POST /restconf/data/ietf-dots-data-channel-identifier HTTP/1.1
+ Host: {host}:{port}
+ Content-Type: "application/yang-data+json"
+ {
+  "ietf-dots-data-channel-identifier:identifier": {
+    "client-identifier": [
+         "string"
+    ],
+    "alias": [
+      {
+        "alias-name": "string",
+        "target-ip": [
+          "string"
+        ],
+        "target-prefix": [
+          "string"
+        ],
+        "target-port-range": [
+          {
+            "lower-port": integer,
+            "upper-port": integer
+          }
+        ],
+        "target-protocol": [
+          integer
+        ],
+        "fqdn": [
+          "string"
+        ],
+        "uri": [
+          "string"
+        ]
+      }
+    ]
+  }
+}
+
+]]></artwork>
+            </figure></t>
+
+          <t>The header parameters are described below:</t>
+
+          <t><list style="hanging">
+              <t hangText="client-identifer:">This attribute has the same
+              meaning, syntax and processing rules as the 'client-identifier'
+              attribute defined in <xref
+              target="I-D.ietf-dots-signal-channel"></xref>. This is an
+              optional attribute.</t>
+
+              <t hangText="alias-name:">Name of the alias. This is a mandatory
+              attribute.</t>
+
+              <t hangText="target-ip:">IP addresses are separated by commas.
+              This is an optional attribute.</t>
+
+              <t hangText="target-prefix: ">Prefixes are separated by commas.
+              This is an optional attribute.</t>
+
+              <t hangText="target-port-range: ">The port range, lower-port for
+              lower port number and upper-port for upper port number. For TCP,
+              UDP, SCTP, or DCCP: the range of ports (e.g., 80 to 8080). This
+              is an optional attribute.</t>
+
+              <t hangText="target-protocol: ">Values are taken from the IANA
+              protocol registry <xref target="proto_numbers"></xref>. The
+              value 0 has a special meaning for 'all protocols'. This is an
+              optional attribute.</t>
+
+              <t hangText="fqdn: ">Fully Qualified Domain Name, is the full
+              name of a system, rather than just its hostname. For example,
+              "venera" is a hostname, and "venera.isi.edu" is an FQDN. This is
+              an optional attribute.</t>
+
+              <t hangText="uri: ">Uniform Resource Identifier (URI). This is
+              an optional attribute.</t>
+            </list></t>
+
+          <t>In the POST request at least one of the attributes 'target-ip' or
+          'target-prefix' or 'fqdn' or 'uri' MUST be present. DOTS agents can
+          safely ignore Vendor-Specific parameters they don't understand.</t>
+
+          <t><xref target="Figure2"></xref> shows a POST request to create
+          alias called "https1" for HTTP(S) servers with IP addresses
+          2001:db8:6401::1 and 2001:db8:6401::2 listening on port 443.</t>
+
+          <t><figure anchor="Figure2" title="POST to create identifiers">
+              <artwork align="left"><![CDATA[POST /restconf/data/ietf-dots-data-channel-identifier HTTP/1.1
+Host: www.example.com
+Content-Type: "application/yang-data+json"
+{
+  "ietf-dots-data-channel-identifier:identifier": {
+    "client-identifier": [
+       "dz6pHjaADkaFTbjr0JGBpw",
+       "iAYmCNPmrYoKoqzgFMiobw"
+    ],
+    "alias": [
+      {
+        "alias-name": "Server1",
+        "target-protocol": [
+          6
+        ],
+        "target-ip": [
+          "2001:db8:6401::1",
+          "2001:db8:6401::2"
+        ],
+        "target-port-range": [
+          {
+            "lower-port": 443
+          }
+        ]
+      }
+    ]
+  }
+}
+]]></artwork>
+            </figure></t>
+
+          <t>The DOTS server indicates the result of processing the POST
+          request using HTTP response codes. HTTP 2xx codes are success, HTTP
+          4xx codes are some sort of invalid requests and 5xx codes are
+          returned if the DOTS server has erred or it is incapable of
+          accepting the alias. Response code 201 (Created) will be returned in
+          the response if the DOTS server has accepted the alias. If the
+          request is missing one or more mandatory attributes then 400 (Bad
+          Request) will be returned in the response or if the request contains
+          invalid or unknown parameters then 400 (Invalid query) will be
+          returned in the response. The HTTP response will include the JSON
+          body received in the request.</t>
+
+          <t>The DOTS client can use the PUT request (Section 4.5 in <xref
+          target="RFC8040"></xref>) to create or modify the aliases in the
+          DOTS server.</t>
+        </section>
+
+        <section title="Delete Identifiers">
+          <t>A DELETE request is used to delete identifiers maintained by a
+          DOTS server (<xref target="Figure3"></xref>).</t>
+
+          <figure anchor="Figure3" title="DELETE identifier">
+            <artwork align="left"><![CDATA[  DELETE /restconf/data/ietf-dots-data-channel-identifier:identifier\
+         /client-identifier=dz6pHjaADkaFTbjr0JGBpw,\
+         iAYmCNPmrYoKoqzgFMiobw/alias-name=Server1 HTTP/1.1
+  Host: {host}:{port}
+]]></artwork>
+          </figure>
+
+          <t>In RESTCONF, URI-encoded path expressions are used. A RESTCONF
+          data resource identifier is encoded from left to right, starting
+          with the top-level data node, according to the 'api-path' rule
+          defined in Section 3.5.3.1 of <xref target="RFC8040"></xref>. The
+          data node in the above path expression is a YANG list node and MUST
+          be encoded according to the rules defined in Section 3.5.1 of <xref
+          target="RFC8040"></xref>.</t>
+
+          <t>If the DOTS server does not find the alias name conveyed in the
+          DELETE request in its configuration data, then it responds with a
+          404 (Not Found) error response code. The DOTS server successfully
+          acknowledges a DOTS client's request to remove the identifier using
+          204 (No Content) in the response.</t>
+        </section>
+
+        <section title="Retrieving Installed Identifiers">
+          <t>A GET request is used to retrieve the set of installed
+          identifiers from a DOTS server (Section 3.3.1 in <xref
+          target="RFC8040"></xref>). <xref target="Figure4"></xref> shows how
+          to retrieve all the identifiers that were instantiated by the DOTS
+          client. The content parameter and its permitted values are defined
+          in Section 4.8.1 of <xref target="RFC8040"></xref>.</t>
+
+          <figure anchor="Figure4"
+                  title="GET to retrieve all the installed identifiers">
+            <artwork align="left"><![CDATA[  GET /restconf/data/ietf-dots-data-channel-identifier:identifier\
+      /client-identifier=dz6pHjaADkaFTbjr0JGBpw,iAYmCNPmrYoKoqzgFMiobw?\
+      content=config HTTP/1.1
+  Host: {host}:{port}
+  Accept: application/yang-data+json]]></artwork>
+          </figure>
+
+          <t><xref target="Figure6"></xref> shows response for all identifiers
+          on the DOTS server.</t>
+
+          <t><figure anchor="Figure6" title="Response body">
+              <artwork align="left"><![CDATA[{
+ "ietf-dots-data-channel-identifier:identifier": {
+    "client-identifier": [
+       "dz6pHjaADkaFTbjr0JGBpw",
+       "iAYmCNPmrYoKoqzgFMiobw"
+    ],
+    "alias": [
+      {
+        "alias-name": "Server1",
+        "traffic-protocol": [
+          6
+        ],
+        "ip": [
+          "2001:db8:6401::1",
+          "2001:db8:6401::2"
+        ],
+        "port-range": [
+          {
+            "lower-port": 443
+          }
+        ]
+      },
+      {
+        "alias-name": "Server2",
+        "traffic-protocol": [
+          6
+        ], 
+        "ip": [
+          "2001:db8:6401::10",
+          "2001:db8:6401::20"
+        ],
+        "port-range": [
+          {
+            "lower-port": 80
+          }
+        ]
+      }
+    ]
+  }
+}
+]]></artwork>
+            </figure></t>
+
+          <t>If the DOTS server does not find the alias name conveyed in the
+          GET request in its configuration data, then it responds with a 404
+          (Not Found) error response code.</t>
+        </section>
+      </section>
+
+      <section title="Filtering Rules">
+        <t>The DOTS server either receives the filtering rules directly from
+        the DOTS client or via a DOTS gateway.</t>
+
+        <t>If the DOTS client signals the filtering rules via a DOTS gateway,
+        then the DOTS gateway validates if the DOTS client is authorized to
+        signal the filtering rules and if the client is authorized propagates
+        the rules to the DOTS server. Likewise, the DOTS server validates if
+        the DOTS gateway is authorized to signal the filtering rules. To
+        create or purge filters, the DOTS client sends HTTP requests to its
+        DOTS gateway. The DOTS gateway validates the rules in the requests and
+        proxies the requests containing the filtering rules to a DOTS server.
+        When the DOTS gateway receives the associated HTTP response from the
+        DOTS server, it propagates the response back to the DOTS client.</t>
+
+        <t>The following APIs define means for a DOTS client to configure
+        filtering rules on a DOTS server.</t>
+
+        <section title="Install Filtering Rules">
+          <t>A POST request is used to push filtering rules to a DOTS server.
+          <xref target="Figure7"></xref> shows a POST request example to block
+          traffic from 192.0.2.0/24, destined to 198.51.100.0/24. The ACL JSON
+          configuration for the filtering rule is generated using the ACL YANG
+          data model defined in <xref
+          target="I-D.ietf-netmod-acl-model"></xref> and the ACL configuration
+          XML for the filtering rule is specified in Section 4.3 of <xref
+          target="I-D.ietf-netmod-acl-model"></xref>.</t>
+
+          <t><figure anchor="Figure7" title="POST to install filterng rules">
+              <artwork align="left"><![CDATA[  
+  POST /restconf/data/ietf-dots-access-control-list HTTP/1.1
+  Host: www.example.com
+  Content-Type: "application/yang-data+json"
+  {
+   "ietf-dots-access-control-list:access-lists": {
+      "client-identifier": [
+       "dz6pHjaADkaFTbjr0JGBpw",
+       "iAYmCNPmrYoKoqzgFMiobw"
+      ],
+      "acl": [
+          { 
+               "acl-name": "sample-ipv4-acl",
+               "acl-type": "ipv4-acl",
+               "aces": {
+                   "ace": [
+                       {
+                           "rule-name": "rule1",
+                           "matches": {
+                             "ipv4-acl": {
+                               "source-ipv4-network": "192.0.2.0/24",
+                               "destination-ipv4-network": "198.51.100.0/24"
+                             }
+                            },
+                            "actions": { 
+                               "forwarding" : "drop"
+                            }
+                        }
+                    ]
+               }
+          }   
+      ]
+   }
+  }
+]]></artwork>
+            </figure></t>
+
+          <t>The header parameters defined in <xref
+          target="I-D.ietf-netmod-acl-model"></xref> are discussed below:</t>
+
+          <t><list style="hanging">
+              <t hangText="acl-name:">The name of access-list. This is a
+              mandatory attribute.</t>
+
+              <t hangText="acl-type:">Indicates the primary intended type of
+              match criteria (e.g. IPv4, IPv6). This is a mandatory
+              attribute.</t>
+
+              <t hangText="protocol: ">Internet Protocol numbers. This is an
+              optional attribute.</t>
+
+              <t hangText="source-ipv4-network:">The source IPv4 prefix. This
+              is an optional attribute.</t>
+
+              <t hangText="destination-ipv4-network:">The destination IPv4
+              prefix. This is an optional attribute.</t>
+
+              <t hangText="actions: ">"drop" or "accept" or "rate-limit".
+              "accept" action is used to white-list traffic. "drop" action is
+              used to black-list traffic. "rate-limit" action is used to
+              rate-limit traffic, the allowed traffic rate is represented in
+              bytes per second indicated in IEEE floating point format <xref
+              target="IEEE.754.1985"></xref>. This is an optional
+              attribute.</t>
+            </list></t>
+
+          <t>The DOTS server indicates the result of processing the POST
+          request using HTTP response codes. HTTP 2xx codes are success, HTTP
+          4xx codes are some sort of invalid requests and 5xx codes are
+          returned if the DOTS server has erred or it is incapable of
+          configuring the filtering rules. Response code 201 (Created) will be
+          returned in the response if the DOTS server has accepted the
+          filtering rules. If the request is missing one or more mandatory
+          attributes then 400 (Bad Request) will be returned in the response
+          or if the request contains invalid or unknown parameters then 400
+          (Invalid query) will be returned in the response.</t>
+
+          <t>The "insert" query parameter discussed in Section 4.8.5 of <xref
+          target="RFC8040"></xref> can be used to specify how a ACE is
+          inserted within an ACL and how a ACL is inserted within an ACL
+          list.</t>
+
+          <t>The DOTS client can use the PUT request to create or modify the
+          filtering rules in the DOTS server.</t>
+        </section>
+
+        <section title="Remove Filtering Rules">
+          <t>A DELETE request is used to delete filtering rules from a DOTS
+          server (<xref target="Figure9"></xref>).</t>
+
+          <figure anchor="Figure9"
+                  title="DELETE to remove the filtering rules">
+            <artwork align="left"><![CDATA[  DELETE /restconf/data/ietf-dots-access-control-list:access-lists\
+         /client-identifier=dz6pHjaADkaFTbjr0JGBpw,\
+         iAYmCNPmrYoKoqzgFMiobw/acl-name=sample-ipv4-acl&\
+         acl-type=ipv4-acl HTTP/1.1
+  Host: {host}:{port}
+]]></artwork>
+          </figure>
+
+          <t>If the DOTS server does not find the access list name and access
+          list type conveyed in the DELETE request in its configuration data,
+          then it responds with a 404 (Not Found) error response code. The
+          DOTS server successfully acknowledges a DOTS client's request to
+          withdraw the filtering rules using 204 (No Content) response code,
+          and removes the filtering rules as soon as possible.</t>
+        </section>
+
+        <section title="Retrieving Installed Filtering Rules  ">
+          <t>The DOTS client periodically queries the DOTS server to check the
+          counters for installed filtering rules. A GET request is used to
+          retrieve filtering rules from a DOTS server. <xref
+          target="Figure10"></xref> shows how to retrieve all the filtering
+          rules programmed by the DOTS client and the number of matches for
+          the installed filtering rules.</t>
+
+          <figure anchor="Figure10"
+                  title="GET to retrieve the configuration data and state data for the filtering rules">
+            <artwork align="left"><![CDATA[  GET /restconf/data/ietf-dots-access-control-list:access-lists\
+      /client-identifier=dz6pHjaADkaFTbjr0JGBpw,iAYmCNPmrYoKoqzgFMiobw?\
+      content=all HTTP/1.1
+  Host: {host}:{port}
+  Accept: application/yang-data+json
+]]></artwork>
+          </figure>
+
+          <t>If the DOTS server does not find the access list name and access
+          list type conveyed in the GET request in its configuration data,
+          then it responds with a 404 (Not Found) error response code.</t>
+        </section>
+      </section>
+    </section>
+
+    <section title="IANA Considerations">
+      <t>This specification registers new parameters for the DOTS data channel
+      and establishes registries for mappings to JSON attributes.</t>
+
+      <section title="DOTS Data Channel JSON Attribute Mappings Registry">
+        <t>A new registry will be requested from IANA, entitled "DOTS data
+        channel JSON attribute Mappings Registry". The registry is to be
+        created as Expert Review Required.</t>
+      </section>
+
+      <section title="Registration Template">
+        <t><list style="hanging">
+            <t hangText="JSON Attribute:"><vspace /> JSON attribute name.</t>
+
+            <t hangText="Description:"><vspace /> Brief description of the
+            attribute.</t>
+
+            <t hangText="Change Controller:"><vspace /> For Standards Track
+            RFCs, list the "IESG". For others, give the name of the
+            responsible party. Other details (e.g., postal address, email
+            address, home page URI) may also be included.</t>
+
+            <t hangText="Specification Document(s):"><vspace /> Reference to
+            the document or documents that specify the parameter, preferably
+            including URIs that can be used to retrieve copies of the
+            documents. An indication of the relevant sections may also be
+            included but is not required.</t>
+          </list></t>
+      </section>
+
+      <section title="Initial Registry Contents">
+        <t><?rfc subcompact="yes"?><list style="symbols">
+            <t>JSON Attribute: "client-identifier"</t>
+
+            <t>Description: Client identifier.</t>
+
+            <t>Change Controller: IESG</t>
+
+            <t>Specification Document(s): this document</t>
+          </list><list style="symbols">
+            <t>JSON Attribute: "alias-name"</t>
+
+            <t>Description: Name of alias.</t>
+
+            <t>Change Controller: IESG</t>
+
+            <t>Specification Document(s): this document</t>
+          </list><list style="symbols">
+            <t>JSON Attribute: "traffic-protocol"</t>
+
+            <t>Description: Internet protocol numbers.</t>
+
+            <t>Change Controller: IESG</t>
+
+            <t>Specification Document(s): this document</t>
+          </list><list style="symbols">
+            <t>JSON Attribute: "port-range"</t>
+
+            <t>Description: The port range, lower-port for lower port number
+            and upper-port for upper port number. For TCP, UDP, SCTP, or DCCP:
+            the range of ports (e.g., 80 to 8080).</t>
+
+            <t>Change Controller: IESG</t>
+
+            <t>Specification Document(s): this document</t>
+          </list><list style="symbols">
+            <t>JSON Attribute: "lower-port"</t>
+
+            <t>Description: Lower port number for port range.</t>
+
+            <t>Change Controller: IESG</t>
+
+            <t>Specification Document(s): this document</t>
+          </list><list style="symbols">
+            <t>JSON Attribute: "upper-port"</t>
+
+            <t>Description: Upper port number for port range.</t>
+
+            <t>Change Controller: IESG</t>
+
+            <t>Specification Document(s): this document</t>
+          </list><list style="symbols">
+            <t>JSON Attribute: "ip"</t>
+
+            <t>Description: IP address.</t>
+
+            <t>Change Controller: IESG</t>
+
+            <t>Specification Document(s): this document</t>
+          </list><list style="symbols">
+            <t>JSON Attribute: "prefix"</t>
+
+            <t>Description: IP prefix</t>
+
+            <t>Change Controller: IESG</t>
+
+            <t>Specification Document(s): this document</t>
+          </list><list style="symbols">
+            <t>JSON Attribute: "fqdn"</t>
+
+            <t>Description: Fully Qualified Domain Name, is the full name of a
+            system, rather than just its hostname. For example, "venera" is a
+            hostname, and "venera.isi.edu" is an FQDN.</t>
+
+            <t>Change Controller: IESG</t>
+
+            <t>Specification Document(s): this document</t>
+          </list><list style="symbols">
+            <t>JSON Attribute: "uri"</t>
+
+            <t>Description: Uniform Resource Identifier (URI).</t>
+
+            <t>Change Controller: IESG</t>
+
+            <t>Specification Document(s): this document</t>
+          </list></t>
+      </section>
+    </section>
+
+    <section anchor="contr" title="Contributors">
+      <t>The following individuals have contributed to this document:</t>
+
+      <t>Dan Wing</t>
+
+      <t>Email: dwing-ietf@fuggles.com</t>
+    </section>
+
+    <section anchor="security" title="Security Considerations">
+      <t>Authenticated encryption MUST be used for data confidentiality and
+      message integrity. TLS based on client certificate MUST be used for
+      mutual authentication. The interaction between the DOTS agents requires
+      Transport Layer Security (TLS) with a cipher suite offering
+      confidentiality protection and the guidance given in <xref
+      target="RFC7525"></xref> MUST be followed to avoid attacks on TLS.</t>
+
+      <t>An attacker may be able to inject RST packets, bogus application
+      segments, etc., regardless of whether TLS authentication is used.
+      Because the application data is TLS protected, this will not result in
+      the application receiving bogus data, but it will constitute a DoS on
+      the connection. This attack can be countered by using TCP-AO <xref
+      target="RFC5925"></xref>. If TCP-AO is used, then any bogus packets
+      injected by an attacker will be rejected by the TCP-AO integrity check
+      and therefore will never reach the TLS layer.</t>
+
+      <t>In order to prevent leaking internal information outside a
+      client-domain, DOTS gateways located in the client-domain SHOULD NOT
+      reveal the identity of internal DOTS clients (client-identifier) unless
+      explicitly configured to do so.</t>
+
+      <t>Special care should be taken in order to ensure that the activation
+      of the proposed mechanism won't have an impact on the stability of the
+      network (including connectivity and services delivered over that
+      network).</t>
+
+      <t>Involved functional elements in the cooperation system must establish
+      exchange instructions and notification over a secure and authenticated
+      channel. Adequate filters can be enforced to avoid that nodes outside a
+      trusted domain can inject request such as deleting filtering rules.
+      Nevertheless, attacks can be initiated from within the trusted domain if
+      an entity has been corrupted. Adequate means to monitor trusted nodes
+      should also be enabled.</t>
+    </section>
+
+    <section anchor="ack" title="Acknowledgements">
+      <t>Thanks to Christian Jacquenet, Roland Dobbins, Roman Danyliw, Ehud
+      Doron, Russ White, Jon Shallow, and Gilbert Clark for the discussion and
+      comments.</t>
+    </section>
+  </middle>
+
+  <back>
+    <references title="Normative References">
+      <?rfc include="reference.RFC.2119"?>
+
+      <?rfc include="reference.RFC.7525"?>
+
+      <?rfc include="reference.RFC.5925"
+?>
+
+      <?rfc include="reference.RFC.8040"?>
+
+      <?rfc include="reference.I-D.ietf-dots-architecture"?>
+
+      <?rfc include="reference.I-D.ietf-netmod-acl-model"?>
+
+      <?rfc include="reference.I-D.ietf-dots-signal-channel"?>
+
+      <?rfc include="reference.RFC.5246"?>
+
+      <?rfc include="reference.RFC.7951"?>
+
+      <?rfc include="reference.RFC.7230"?>
+    </references>
+
+    <references title="Informative References">
+      <?rfc include="reference.RFC.7159"?>
+
+      <?rfc include="reference.RFC.6020"?>
+
+      <?rfc include="reference.RFC.7950"?>
+
+      <?rfc include="reference.RFC.6520"?>
+
+      <?rfc include="reference.RFC.6241"?>
+
+      <?rfc include="reference.I-D.ietf-dots-requirements"?>
+
+      <?rfc include='reference.I-D.ietf-netmod-yang-tree-diagrams'?>
+
+      <reference anchor="IEEE.754.1985">
+        <front>
+          <title>Standard for Binary Floating-Point Arithmetic</title>
+
+          <author>
+            <organization>Institute of Electrical and Electronics
+            Engineers</organization>
+          </author>
+
+          <date month="August" year="1985" />
+        </front>
+      </reference>
+
+      <reference anchor="proto_numbers"
+                 target="http://www.iana.org/assignments/protocol-numbers">
+        <front>
+          <title>IANA, "Protocol Numbers"</title>
+
+          <author>
+            <organization></organization>
+          </author>
+
+          <date year="2011" />
+        </front>
+      </reference>
+    </references>
+  </back>
+</rfc>
