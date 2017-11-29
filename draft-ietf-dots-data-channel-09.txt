@@ -349,8 +349,8 @@ Internet-Draft              DOTS Data Channel              November 2017
              |  +--rw lower-port    inet:port-number
              |  +--rw upper-port    inet:port-number
              +--rw target-protocol*     uint8
-             +--rw fqdn*                inet:domain-name
-             +--rw uri*                 inet:uri
+             +--rw target-fqdn*         inet:domain-name
+             +--rw target-uri*          inet:uri
 
    This structure is aligned with Section 5.2.1 of
    [I-D.ietf-dots-signal-channel].
@@ -487,12 +487,12 @@ Internet-Draft              DOTS Data Channel              November 2017
                         protocol-numbers/protocol-numbers.xhtml";
                    }
 
-                   leaf-list fqdn {
+                   leaf-list target-fqdn {
                      type inet:domain-name;
                      description "FQDN";
                    }
 
-                   leaf-list uri {
+                   leaf-list target-uri {
                      type inet:uri;
                      description "URI";
                    }
@@ -812,10 +812,10 @@ Internet-Draft              DOTS Data Channel              November 2017
            "target-protocol": [
              integer
            ],
-           "fqdn": [
+           "target-fqdn": [
              "string"
            ],
-           "uri": [
+           "target-uri": [
              "string"
            ]
          }
@@ -857,22 +857,22 @@ Internet-Draft              DOTS Data Channel              November 2017
       [proto_numbers].  The value 0 has a special meaning for 'all
       protocols'.  This is an optional attribute.
 
-   fqdn:   Fully Qualified Domain Name, is the full name of a system,
-      rather than just its hostname.  For example, "venera" is a
+   target-fqdn:   Fully Qualified Domain Name, is the full name of a
+      system, rather than just its hostname.  For example, "venera" is a
       hostname, and "venera.isi.edu" is an FQDN.  This is an optional
       attribute.
 
-   uri:   Uniform Resource Identifier (URI).  This is an optional
+   target-uri:   Uniform Resource Identifier (URI).  This is an optional
       attribute.
 
    In the POST request at least one of the attributes 'target-ip' or
-   'target-prefix' or 'fqdn' or 'uri' MUST be present.  DOTS agents can
-   safely ignore Vendor-Specific parameters they don't understand.
+   'target-prefix' or 'target-fqdn' or 'target-uri' MUST be present.
+   DOTS agents can safely ignore Vendor-Specific parameters they don't
+   understand.
 
    Figure 4 shows a POST request to create alias called "https1" for
    HTTP(S) servers with IP addresses 2001:db8:6401::1 and
    2001:db8:6401::2 listening on port 443.
-
 
 
 
@@ -1348,14 +1348,14 @@ Internet-Draft              DOTS Data Channel              November 2017
 
    o  Specification Document(s): this document
 
-   o  JSON Attribute: "fqdn"
+   o  JSON Attribute: "target-fqdn"
    o  Description: Fully Qualified Domain Name, is the full name of a
       system, rather than just its hostname.  For example, "venera" is a
       hostname, and "venera.isi.edu" is an FQDN.
    o  Change Controller: IESG
    o  Specification Document(s): this document
 
-   o  JSON Attribute: "uri"
+   o  JSON Attribute: "target-uri"
    o  Description: Uniform Resource Identifier (URI).
    o  Change Controller: IESG
    o  Specification Document(s): this document

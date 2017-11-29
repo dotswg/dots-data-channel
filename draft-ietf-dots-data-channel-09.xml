@@ -369,8 +369,8 @@
           |  +--rw lower-port    inet:port-number
           |  +--rw upper-port    inet:port-number
           +--rw target-protocol*     uint8
-          +--rw fqdn*                inet:domain-name
-          +--rw uri*                 inet:uri]]></artwork>
+          +--rw target-fqdn*         inet:domain-name
+          +--rw target-uri*          inet:uri]]></artwork>
             </figure>This structure is aligned with Section 5.2.1 of <xref
           target="I-D.ietf-dots-signal-channel"></xref>.</t>
         </section>
@@ -493,12 +493,12 @@ module ietf-dots-data-channel-identifier {
                         protocol-numbers/protocol-numbers.xhtml";
                    }
 
-                   leaf-list fqdn {
+                   leaf-list target-fqdn {
                      type inet:domain-name;
                      description "FQDN";
                    }
 
-                   leaf-list uri {
+                   leaf-list target-uri {
                      type inet:uri;
                      description "URI";
                    }
@@ -760,10 +760,10 @@ module ietf-dots-access-control-list {
         "target-protocol": [
           integer
         ],
-        "fqdn": [
+        "target-fqdn": [
           "string"
         ],
-        "uri": [
+        "target-uri": [
           "string"
         ]
       }
@@ -802,18 +802,19 @@ module ietf-dots-access-control-list {
               value 0 has a special meaning for 'all protocols'. This is an
               optional attribute.</t>
 
-              <t hangText="fqdn: ">Fully Qualified Domain Name, is the full
-              name of a system, rather than just its hostname. For example,
-              "venera" is a hostname, and "venera.isi.edu" is an FQDN. This is
-              an optional attribute.</t>
+              <t hangText="target-fqdn: ">Fully Qualified Domain Name, is the
+              full name of a system, rather than just its hostname. For
+              example, "venera" is a hostname, and "venera.isi.edu" is an
+              FQDN. This is an optional attribute.</t>
 
-              <t hangText="uri: ">Uniform Resource Identifier (URI). This is
-              an optional attribute.</t>
+              <t hangText="target-uri: ">Uniform Resource Identifier (URI).
+              This is an optional attribute.</t>
             </list></t>
 
           <t>In the POST request at least one of the attributes 'target-ip' or
-          'target-prefix' or 'fqdn' or 'uri' MUST be present. DOTS agents can
-          safely ignore Vendor-Specific parameters they don't understand.</t>
+          'target-prefix' or 'target-fqdn' or 'target-uri' MUST be present.
+          DOTS agents can safely ignore Vendor-Specific parameters they don't
+          understand.</t>
 
           <t><xref target="Figure2"></xref> shows a POST request to create
           alias called "https1" for HTTP(S) servers with IP addresses
@@ -1225,7 +1226,7 @@ Content-Type: "application/yang-data+json"
 
             <t>Specification Document(s): this document</t>
           </list><list style="symbols">
-            <t>JSON Attribute: "fqdn"</t>
+            <t>JSON Attribute: "target-fqdn"</t>
 
             <t>Description: Fully Qualified Domain Name, is the full name of a
             system, rather than just its hostname. For example, "venera" is a
@@ -1235,7 +1236,7 @@ Content-Type: "application/yang-data+json"
 
             <t>Specification Document(s): this document</t>
           </list><list style="symbols">
-            <t>JSON Attribute: "uri"</t>
+            <t>JSON Attribute: "target-uri"</t>
 
             <t>Description: Uniform Resource Identifier (URI).</t>
 
